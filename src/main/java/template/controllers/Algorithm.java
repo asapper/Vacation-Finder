@@ -15,7 +15,7 @@ public class Algorithm {
 		for(int i = 0; i < businesses.size(); i++){
 			//Rank is raised as a function of rating
 			businesses.get(i).setWeight(businesses.get(i).getWeight() +  
-					(businesses.get(i).getRating() * 5) * businesses.get(i).getRatingNum());
+					(businesses.get(i).getAverageRating() * 5) * businesses.get(i).getNumReviews());
 			
 			//Rank is lowered as a function of distance from city
 			businesses.get(i).setWeight(businesses.get(i).getWeight() 
@@ -26,11 +26,11 @@ public class Algorithm {
 					- (businesses.get(i).getPrice() * 2));
 			
 			//Rank is lowered by 1 if no deals offered
-			if(!(businesses.get(i).hasDeals())){
+			if(!(businesses.get(i).hasDeal())){
 				businesses.get(i).setWeight(businesses.get(i).getWeight() - 5);
 			}
 			
-			if(!(businesses.get(i).isOpen())){
+			if(!(businesses.get(i).isOpenNow())){
 				businesses.get(i).setWeight(businesses.get(i).getWeight() - 2);
 			}
 		}

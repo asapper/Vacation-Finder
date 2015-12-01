@@ -1,37 +1,40 @@
+/**
+ * Author: Carter Ratley
+ * Date Created: 10/1/15
+ * Date Last Modified: 11/30/15
+ */
 package template.controllers;
+
 public class Business {
 	
-	private int    price;
-	private double weight;
-	private double distance;
-	private boolean deals = false; // Vacations with deals
-	private String dealInfo = "";
-	private boolean open = false; // Vacation is open
 	private String name = ""; // Business name
+	private String website = ""; // A link to the website
 	private String yelpSite = ""; // Link to yelp site URL
-	private double rating = 0.0; // Yelp rating
-	private int	   ratingNum = 0;
+	private double yelpRating = 0.0; // Yelp rating
+	private int numReviews = 0; // The number of reviews of the business
+	private double googleRating = -1.0; // The rating from the Google API
+	private double averageRating = 0.0; // The average rating between Yelp and Google
 	private String address = ""; // Street Address 
 	private String phoneNumber = ""; // Phone Number
-	private double latitude = 0.0; // Business location latitude
-	private double longitude = 0.0; // Business location longitude
+	private Coordinate coordinates; // Coordinates
+	private double distance = 0.0; // Distance from specified location
+	private boolean hasDeal = false; // If the business has a deal
+	private String dealInfo = ""; // The info about the possible deal
+	private int price = -1; // The price of the business
+	private boolean isOpenNow = false; // Whether or not the business is open at the time of the search
+	private String photo = ""; // The URL of a photo of the business
+	private String googleReviewText = ""; // A sample google review
+	private double googleReviewRating = 0.0; // A sample google rating
+	private static Business business = new Business();
+	private double weight;
 	
-	private static Business instance = new Business();
 	
-	public static Business getInstance(){
-		return instance;
-	}
 	
 	/**
 	 * Default Constructor 
 	 */
 	public Business(){
-		name = "";
-		rating = 0;
-		price = 0;
-		distance = 0;
-		weight = 10;
-		deals = false;
+		
 	}
 	
 	/**
@@ -40,66 +43,10 @@ public class Business {
 	 */
 	public Business(String newName){
 		name = newName;
-		rating = 0;
-		price = 0;
-		distance = 0;
-		weight = 10;
-		deals = false;
 	}
 	
-	public Business(String newName, double newRating, int newRatingNum,
-			int newPrice, double newDistance, boolean newDeals){
-		name = newName;
-		rating = newRating;
-		ratingNum = newRatingNum;
-		price = newPrice;
-		distance = newDistance;
-		deals = newDeals;
-		weight = 10;
-	}
-	
-	public int getPrice(){
-		return price;
-	}
-	
-	public void setPrice(int p){
-		price = p;
-	}
-	
-	public boolean hasDeals(){
-		return deals;
-	}
-	
-	public void setDeals(boolean d){
-		deals = d;
-	}
-	
-	public void setDealInfo(String info){
-		dealInfo = info;
-	}
-	
-	public boolean isOpen(){
-		return open;
-	}
-	
-	public void setOpen(boolean o){
-		open = o;
-	}
-	
-	public void setDistance(double d){
-		distance = d;
-	}
-	
-	public double getDistance(){
-		return distance;
-	}
-	
-	public void setWeight(double w){
-		weight = w;
-	}
-	
-	public double getWeight(){
-		return weight;
+	public static Business getInstance(){
+		return business;
 	}
 	
 	/**
@@ -137,8 +84,8 @@ public class Business {
 	 * Gets the yelp rating
 	 * @return
 	 */
-	public double getRating(){
-		return rating;
+	public double getYelpRating(){
+		return yelpRating;
 	}
 	
 	/**
@@ -146,15 +93,7 @@ public class Business {
 	 * @param newRating
 	 */
 	public void setRating(double newRating){
-		rating = newRating;
-	}
-	
-	public int getRatingNum(){
-		return ratingNum;
-	}
-	
-	public void setRatingNum(int num){
-		ratingNum = num;
+		yelpRating = newRating;
 	}
 	
 	/**
@@ -189,38 +128,219 @@ public class Business {
 		phoneNumber = newPhoneNumber;
 	}
 	
+	
 	/**
-	 * Returns the latitude of the business
+	 * Returns the coordinates
 	 * @return
 	 */
-	public double getLatitude(){
-		return latitude;
+	public Coordinate getCoordinates() {
+		return coordinates;
 	}
-	
+
 	/**
-	 * Sets the latitude of the business
-	 * @param newLatitude
+	 * Sets the coordinates
+	 * @param coordinates
 	 */
-	public void setLatitude(double newLatitude){
-		latitude = newLatitude;
+	public void setCoordinates(Coordinate coordinates) {
+		this.coordinates = coordinates;
 	}
-	
+
 	/**
-	 * Gets the longitude of the business
+	 * Returns the distance from the queried location
 	 * @return
 	 */
-	public double getLongitude(){
-		return longitude;
+	public double getDistance(){
+		return distance;
 	}
 	
 	/**
-	 * Sets the longitude of the business
-	 * @param newLongitude
+	 * Sets the distance to desired value
+	 * @param newDistance
 	 */
-	public void setLongitude(double newLongitude){
-		longitude = newLongitude;
+	public void setDistance(double newDistance){
+		distance = newDistance;
 	}
 	
+	/**
+	 * Gets the deal info
+	 * @return
+	 */
+	public String getDealInfo(){
+		return dealInfo;
+	}
+	
+	/**
+	 * Returns if the business has a deal
+	 * @return
+	 */
+	public boolean hasDeal(){
+		return hasDeal;
+	}
+	
+	/**
+	 * Sets the boolean value if the place has a deal
+	 * @param deal
+	 */
+	public void setDeal(boolean deal){
+		hasDeal = deal;
+	}
+	
+	
+	/**
+	 * Sets the deal info to the new info
+	 * @param newInfo
+	 */
+	public void setDealInfo(String newInfo){
+		dealInfo = newInfo;
+	}
+	
+	/**
+	 * Returns the numbers of reviews
+	 * @return
+	 */
+	public int getNumReviews(){
+		return numReviews;
+	}
+	
+	/**
+	 * Sets the number of reviews
+	 * @param newNumReviews
+	 */
+	public void setNumReviews(int newNumReviews){
+		numReviews = newNumReviews;
+	}
+	
+	/**
+	 * Returns the price from 0-4
+	 * @return
+	 */
+	public int getPrice(){
+		return price;
+	}
+	
+	/**
+	 * Sets the price of the business
+	 * @param newPrice
+	 */
+	public void setPrice(int newPrice){
+		price = newPrice;
+	}
+	
+	/**
+	 * Returns website
+	 * @return
+	 */
+	public String getWebsite() {
+		return website;
+	}
+
+	/**
+	 * Sets the website URL
+	 * @param website
+	 */
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	/**
+	 * Gets the google rating
+	 * @return
+	 */
+	public double getGoogleRating() {
+		return googleRating;
+	}
+
+	/**
+	 * Sets the google rating
+	 * @param googleRating
+	 */
+	public void setGoogleRating(double googleRating) {
+		this.googleRating = googleRating;
+	}
+
+	/**
+	 * Gets the average rating
+	 * @return
+	 */
+	public double getAverageRating() {
+		return averageRating;
+	}
+	
+	public void setAverageRating(double newAvg){
+		averageRating = newAvg;
+	}
+
+	/**
+	 * Calculates the average rating of yelp and google places
+	 */
+	public void calculateAverageRating(){
+		averageRating  = (yelpRating + googleRating) / 2;
+	}
+	
+	/**
+	 * Returns whether or not the business is open at the time of the api call
+	 * @return
+	 */
+	public boolean isOpenNow() {
+		return isOpenNow;
+	}
+
+	/**
+	 * Sets whether or not the business is open
+	 * @param isOpenNow
+	 */
+	public void setOpenNow(boolean isOpenNow) {
+		this.isOpenNow = isOpenNow;
+	}
+
+	/**
+	 * Gets the link to the photo of the business
+	 * @return
+	 */
+	public String getPhoto() {
+		return photo;
+	}
+
+	/**
+	 * Sets the photo link
+	 * @param photo
+	 */
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	/**
+	 * Gets the text from the Google review
+	 * @return
+	 */
+	public String getGoogleReviewText() {
+		return googleReviewText;
+	}
+
+	/**
+	 * Sets the google review text
+	 * @param googleReviewText
+	 */
+	public void setGoogleReviewText(String googleReviewText) {
+		this.googleReviewText = googleReviewText;
+	}
+	
+	/**
+	 * Gets the rating of the single review from google
+	 * @return
+	 */
+	public double getGoogleSingleReviewRating() {
+		return googleReviewRating;
+	}
+
+	/**
+	 * Sets the rating of the single review from google
+	 * @param googleReviewRating
+	 */
+	public void setGoogleSingleReviewRating(double googleReviewRating) {
+		this.googleReviewRating = googleReviewRating;
+	}
+
 	/**
 	 * Overridden toString method
 	 */
@@ -228,27 +348,24 @@ public class Business {
 		return name;
 	}
 	
+	
 	/**
-	 * Returns the latitude and longitude formatted in (###, ###) form
+	 * Returns a formatted phone number in (###) ###-#### form
 	 * @return
 	 */
-	public String formatCoordinates(){
-		return ("(" + latitude + ", " + longitude + ")");
-	}
-	
 	public String formatPhoneNumber(){
 		return("(" + phoneNumber.substring(0, 3) + ")" + phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10));
 	}
-
-	public String getWebsite() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean isNull() {
-		return (name == "");
+	
+	public double getWeight(){
+		return weight;
 	}
 	
+	public void setWeight(double w){
+		weight = w;
+	}
 	
-	
+	public boolean isNull(){
+		return name.equals("");
+	}
 }

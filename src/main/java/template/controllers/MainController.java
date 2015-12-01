@@ -59,7 +59,7 @@ public class MainController {
 		System.out.println("business price is: " + biz.getPrice());
 		System.out.println("business website is: " + biz.getWebsite());
 		System.out.println("business phone is: " + biz.getPhoneNumber() + "\n");
-		System.out.println("business rating is: " + biz.getRating());		
+		System.out.println("business rating is: " + biz.getAverageRating());		
 		
 		if(biz.isNull()) {
 			System.out.println("%%% DONE %%%");

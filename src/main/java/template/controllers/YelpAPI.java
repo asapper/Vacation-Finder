@@ -1,7 +1,8 @@
 package template.controllers;
 
-
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,11 +28,14 @@ import com.beust.jcommander.Parameter;
  * <p>
  * See <a href="http://www.yelp.com/developers/documentation">Yelp Documentation</a> for more info.
  * 
+ * 
+ * Modified By: Carter Ratley
+ * Date Last Modified: 11/5/15
  */
 public class YelpAPI {
 
   private static final String API_HOST = "api.yelp.com";
-  private static final int SEARCH_LIMIT = 15;
+  private static final int SEARCH_LIMIT = 20;
   private static final String SEARCH_PATH = "/v2/search";
   private static final String BUSINESS_PATH = "/v2/business";
   private static final String CATEGORY_FILTER = "active, all";
@@ -190,6 +194,19 @@ public class YelpAPI {
     
   }
 
+  public static StringBuffer removeUTFCharacters(String data){
+	  Pattern p = Pattern.compile("\\\\u(\\p{XDigit}{4})");
+	  Matcher m = p.matcher(data);
+	  StringBuffer buf = new StringBuffer(data.length());
+	  while (m.find()) {
+		  String ch = String.valueOf((char) Integer.parseInt(m.group(1), 16));
+		  m.appendReplacement(buf, Matcher.quoteReplacement(ch));
+	  }
+	  
+	  m.appendTail(buf);
+	  return buf;
+  }
+  
   public static Business parseBusiness(String info){
 	  Business tempBusiness = new Business();
 	  
@@ -197,7 +214,12 @@ public class YelpAPI {
 	  int nameIndex = info.indexOf("\"name\"");
 	  int nameIndexOffset = nameIndex + 9;
 	  int nameEndIndex = info.indexOf("\"", nameIndexOffset);
-	  tempBusiness.setName(info.substring(nameIndexOffset, nameEndIndex));
+	  String tempName = info.substring(nameIndexOffset, nameEndIndex);
+	  StringBuffer tempSB = removeUTFCharacters(tempName);
+	  tempName = tempSB.toString();	  
+	  tempBusiness.setName(tempName);
+	  System.out.println(tempName);
+	  
 	  
 	  // Finds the rating
 	  int ratingIndex = info.indexOf("\"rating\"");
@@ -226,27 +248,25 @@ public class YelpAPI {
 	  
 	  
 	  int latitudeIndex = info.indexOf("\"latitude\"");
-	  double latitude = 0;
-	  if(latitudeIndex > 0){
+	  int longitudeIndex = info.indexOf("\"longitude\"");
+	  
+	  if(latitudeIndex > 0 && longitudeIndex > 0){
+		  double latitude = 0;
+		  double longitude = 0;
 		  int latitudeIndexOffset = latitudeIndex + 12;
 		  int latitudeEndIndex = info.indexOf(',', latitudeIndexOffset);
 		  String latitudeString = info.substring(latitudeIndexOffset, latitudeEndIndex);
 		  latitude = Double.parseDouble(latitudeString);
-		  tempBusiness.setLatitude(latitude);
-	  }
-	  
-	  int longitudeIndex = info.indexOf("\"longitude\"");
-	  double longitude = 0;
-	  if(longitudeIndex > 0){
 		  int longitudeIndexOffset = longitudeIndex + 12;
 		  int longitudeEndIndex = info.indexOf('}', longitudeIndexOffset);
 		  String longitudeString = info.substring(longitudeIndexOffset, longitudeEndIndex);
 		  longitude = Double.parseDouble(longitudeString); 
-		  tempBusiness.setLongitude(longitude); 
-		  //System.out.println("(" + latitude + ", " + longitude + ")");
-		  //System.out.println();
-	  }  
-	  
+		  
+		  System.out.println(latitude + " " + longitude);
+		  Coordinate tempCoordinate = new Coordinate(latitude, longitude);
+		  tempBusiness.setCoordinates(tempCoordinate);
+		
+	  }	  
 	  
 	  // Finds the street address
 	  int streetAddressIndex = info.indexOf("\"display_address\"");
@@ -263,18 +283,30 @@ public class YelpAPI {
 		  cityStateZipCodeEndIndex = info.indexOf("\"]", streetAddressIndex);
 		  String streetAddress = info.substring(streetAddressIndexOffset, cityStateZipCodeEndIndex);
 		  streetAddress = streetAddress.replaceAll("[\"]", "");
-		  
+		  //System.out.println(streetAddress);
 		  tempBusiness.setAddress(streetAddress);
 	  }
 	  
 	  int dealInfoIndex = info.indexOf("\"what_you_get\": ");
 	  
 	  if(dealInfoIndex > 0){
-		  tempBusiness.setDeals(true);
+		  tempBusiness.setDeal(true);
 		  int dealInfoIndexOffset = dealInfoIndex + 17;
 		  int dealInfoEndIndex = info.indexOf("\", \"", dealInfoIndexOffset);
 		  String dealInfo = info.substring(dealInfoIndexOffset, dealInfoEndIndex);
 		  tempBusiness.setDealInfo(dealInfo);
+	  }
+	  
+	  // Finds number of reviews
+	  int reviewCountIndex = info.indexOf("\"review_count\": ");
+	  
+	  if(reviewCountIndex > 0){
+		  int reviewCountIndexOffset = reviewCountIndex + 16;
+		  int reviewCountEndIndex = info.indexOf(",", reviewCountIndexOffset);
+		  int reviewCount = Integer.parseInt(info.substring(reviewCountIndexOffset, reviewCountEndIndex));
+		  tempBusiness.setNumReviews(reviewCount);
+		  //System.out.println(reviewCount);
+		  
 	  }
 	  
 	  return tempBusiness;
@@ -308,11 +340,9 @@ public class YelpAPI {
   public static ArrayList<Business> run(String[] args, String inputActivity,
 		  String inputCity, int inputRadius, boolean inputDeals) {
   
-    newTerm = "hiking"; 	// Category of Activity
-    newLocation = "Dallas, TX"; // Location of Activity
-    radiusFilter = 25; // Miles from location of Activity
-    sortFilter = 0; // Default sorting value
-    deals = false; // Whether or not the company has deals
+    newTerm = inputActivity; 	// Category of Activity
+    newLocation = inputCity; // Location of Activity
+    radiusFilter = inputRadius; // Miles from location of Activity
       
 	  
 	YelpAPICLI yelpApiCli = new YelpAPICLI();
