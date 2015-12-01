@@ -16,7 +16,7 @@ public class Business {
 	private double averageRating = 0.0; // The average rating between Yelp and Google
 	private String address = ""; // Street Address 
 	private String phoneNumber = ""; // Phone Number
-	private Coordinate coordinates; // Coordinates
+	private Coordinate coordinates = new Coordinate(); // Coordinates
 	private double latitude = 0.0;
 	private double longitude = 0.0;
 	private double distance = 0.0; // Distance from specified location
@@ -130,21 +130,6 @@ public class Business {
 		phoneNumber = newPhoneNumber;
 	}
 	
-	/**
-	 * Returns the latitude.
-	 * @return
-	 */
-	public double getLatitude() {
-		return coordinates.getLatitude();
-	}
-	
-	/**
-	 * Returns the longitude.
-	 * @return
-	 */
-	public double getLongitude() {
-		return coordinates.getLongitude();
-	}
 	
 	/**
 	 * Returns the coordinates
@@ -153,6 +138,22 @@ public class Business {
 	public Coordinate getCoordinates() {
 		return coordinates;
 	}
+	
+	public double getLatitude(){
+		return latitude;
+	}
+	
+	public double getLongitude(){
+		return longitude;
+	}
+	
+	public void setLatitude(double l){
+		latitude = l;
+	}
+	
+	public void setLongitude(double l){
+		longitude = l;
+	}
 
 	/**
 	 * Sets the coordinates
@@ -160,6 +161,11 @@ public class Business {
 	 */
 	public void setCoordinates(Coordinate coordinates) {
 		this.coordinates = coordinates;
+	}
+	
+	public void setCoordinatesGoogle(){
+		this.coordinates.setLatitude(latitude);
+		this.coordinates.setLongitude(longitude);
 	}
 
 	/**

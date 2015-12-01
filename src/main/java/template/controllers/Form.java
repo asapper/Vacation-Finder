@@ -9,6 +9,8 @@ public class Form {
 	  private int groupSize = 0;
 	  private boolean cityError = false;
 	  private boolean activityError = false;
+	  private double longitude = 0;
+	  private double latitude = 0;
 	  
 	  public String getCity(){
 		  return city;
@@ -73,4 +75,21 @@ public class Form {
 	  public boolean getActivityError(){
 		  return activityError;
 	  }
+	  
+	  public void setLongitude(double newLongitude){
+	  	   longitude = newLongitude;
+	  }
+	  
+	  public double getLongitude(){
+	  		return longitude;
+	  }
+	  
+	  public void setLatitude(double newLatitude){
+	  	   longitude = newLatitude;
+	  }
+	  
+	  public double getLatitude(){
+	  		return latitude;
+	  }
+	  
 }
