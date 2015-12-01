@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Results | Outdoor Adevnture</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <!-- endbuild -->
+
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <nav class="navbar navbar-default navbar-static-top navbar-map" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">
+            <h3 class="logo-text">Outodoor Adventure</h3>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="map-outer-container">
+      <div class="map-container">
+        <div class="map" id="map">
+        </div>
+      </div>  
+    </div>
+    
+    <div class="map-table-container">
+    	<div class="table-responsive">
+    		<table class="table table-striped table-bordered" id="places-table">
+    			<thead>
+    			<tr>
+    				<th>Ranking #</th>
+    				<th>Name</th>
+    				<th>Address</th>
+    				<th>Phone</th>
+    				<th>Rating</th>
+    			<tr>
+    			</thead>
+    			<tbody>
+	    		</tbody>
+	    	</table>
+	    </div>
+	</div>
+	
+    <div class="footer">
+      Designed and created by 2Legit2Quit.
+    </div>
+
+    <!-- build:js scripts/main.js -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+    <!-- endbuild -->
+    
+    <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initMap" async defer></script>
+</body>
+</html>

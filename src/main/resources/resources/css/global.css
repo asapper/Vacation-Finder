@@ -1,0 +1,113 @@
+/******************************************************************************
+ * GENERAL
+ *****************************************************************************/
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #f5f5f5;
+}
+
+.footer {
+  background-color: #6C7A89;
+  color: white;
+
+  font-size: 1.5rem;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.logo-text {
+  color: white;
+  display: inline;
+  margin-left: .5em;
+}
+
+/******************************************************************************
+ * INDEX PAGE
+ *****************************************************************************/
+
+.navbar-home {
+  background: transparent;
+  border: 0;
+  padding: 1em;
+}
+
+.housing-form-container {
+  margin-bottom: 12em;
+  padding-top: 3em;
+}
+
+.housing-form-summary {
+  margin-bottom: 3em;
+}
+
+/******************************************************************************
+ * MAIN NAVBAR TEXT
+ *****************************************************************************/
+
+.promo {
+  background: #26A65B;
+}
+
+.promo-content {
+  text-align: center;
+  padding: 10rem 0;
+}
+
+.promo-headline {
+  font-size: 5em;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.promo-subhead {
+  font-size: 1.4em;
+  font-weight: 200;
+  letter-spacing: .05em;
+}
+
+/******************************************************************************
+ * MAP PAGE
+ *****************************************************************************/
+
+.navbar-map {
+ border: 0;
+ border-radius: 0;
+
+ padding: 1em;
+ background-color: #26A65B;
+}
+
+.navbar-map .logo-text {
+	color: white;
+}
+
+.map-container {
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  height: 100%;
+  position: relative;
+}
+
+.map-outer-container {
+  height: 600px;
+  margin: 0 15px;
+}
+
+.map-table-container {
+	margin: 20px 15px;
+}
+
+#map {
+	height: 100%;
+	width: 100%;
+}
+
+.thumbnail-wrapper {
+  margin: 0;
+}
