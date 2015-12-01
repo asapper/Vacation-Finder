@@ -2,6 +2,7 @@ package template.controllers;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ public class MainController {
 	Form userForm;
 	ArrayList <Business> businesses = new ArrayList<>();
 	Facade thefacade = Facade.getInstance();
+	ArrayList<Business> listOfBusinesses;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String homeForm(Model model) {
@@ -30,7 +32,7 @@ public class MainController {
 		userForm = form;
 		
 		System.out.println("Calling Yelp API");
-		thefacade.callYelpAPI(YelpAPI.run(cmdArgs, 
+		thefacade.getYelpAPIResults(YelpAPI.run(cmdArgs, 
 					form.getActivity(),
 					form.getCity(),
 					form.getRadius(),
@@ -47,31 +49,38 @@ public class MainController {
 	
 	@RequestMapping(value="/map", method=RequestMethod.POST)
 	@ResponseBody
-	public JSONObject mapPost(@ModelAttribute Business biz, Model model) {
-		System.out.println("%%% Inside /map POST route");
+	public JSONArray mapPost(@ModelAttribute Business biz, Model model) {
+		JSONArray jsonArr = new JSONArray();
+		JSONObject tmpJson = new JSONObject();
 		
-		JSONObject json = new JSONObject();
-		json.put("name", "return full merged list of locs here (as an array of JSONObject's)!");
-		
-		model.addAttribute("biz", biz);
-		
-		System.out.println(">>> business name is: " + biz.getName());
-		System.out.println("business price is: " + biz.getPrice());
-		System.out.println("business website is: " + biz.getWebsite());
-		System.out.println("business phone is: " + biz.getPhoneNumber() + "\n");
-		System.out.println("business rating is: " + biz.getAverageRating());		
+		model.addAttribute("biz", biz);		
 		
 		if(biz.isNull()) {
-			System.out.println("%%% DONE %%%");
-			thefacade.callGoogleAPI(businesses);
-			thefacade.printResults();
-		}
-		else{
-			System.out.println("Adding Business " + biz.getName());
+			thefacade.getGoogleAPIResults(businesses);
+			listOfBusinesses = thefacade.getResults();
+		} else {
 			businesses.add(biz);
 		}
 		
-		return json;
+		// add businesses to array of JSONs
+		for(Business aBiz : listOfBusinesses) {
+			// re-init tmp JSON Object
+			tmpJson = new JSONObject();
+			
+			// add attributes
+			tmpJson.put("name", aBiz.getName());
+			tmpJson.put("address", aBiz.getAddress());
+			tmpJson.put("phone", aBiz.getPhoneNumber());
+			tmpJson.put("rating", aBiz.getAverageRating());
+			tmpJson.put("lat", aBiz.getLatitude());
+			tmpJson.put("lng", aBiz.getLongitude());
+			tmpJson.put("website", aBiz.getWebsite());
+			
+			// add JSON Object to array
+			jsonArr.add(tmpJson);
+		}
+		
+		return jsonArr;
 	}
 	
 	@SuppressWarnings("unchecked")

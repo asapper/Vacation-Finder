@@ -17,6 +17,8 @@ public class Business {
 	private String address = ""; // Street Address 
 	private String phoneNumber = ""; // Phone Number
 	private Coordinate coordinates; // Coordinates
+	private double latitude = 0.0;
+	private double longitude = 0.0;
 	private double distance = 0.0; // Distance from specified location
 	private boolean hasDeal = false; // If the business has a deal
 	private String dealInfo = ""; // The info about the possible deal
@@ -128,6 +130,21 @@ public class Business {
 		phoneNumber = newPhoneNumber;
 	}
 	
+	/**
+	 * Returns the latitude.
+	 * @return
+	 */
+	public double getLatitude() {
+		return coordinates.getLatitude();
+	}
+	
+	/**
+	 * Returns the longitude.
+	 * @return
+	 */
+	public double getLongitude() {
+		return coordinates.getLongitude();
+	}
 	
 	/**
 	 * Returns the coordinates

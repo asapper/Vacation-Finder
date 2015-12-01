@@ -5,6 +5,8 @@ var mapBounds;
 var origin;
 var numLocs = 0;
 var locsCount = 0;
+var criteria_radius = 0;
+var criteria_keyword = "";
 
 function initMap() {
 	
@@ -14,8 +16,8 @@ function initMap() {
 		
 		success: function(tmp) {
 			// convert to meters
-			var criteria_radius = tmp.radius * 1609;
-			var criteria_keyword = tmp.type;
+			criteria_radius = tmp.radius * 1609;
+			criteria_keyword = tmp.type;
 			
 			switch(tmp.city) {
 				case "Amarillo":
@@ -69,7 +71,6 @@ function initMap() {
 		  
 		  	// init bounds
 		  	mapBounds = new google.maps.LatLngBounds();
-		  	
 		}
 	});
 
@@ -88,11 +89,6 @@ function callback(results, status) {
 
 function details_callBack(place, status) {
 	if(status == google.maps.places.PlacesServiceStatus.OK) {
-		// create marker for this place
-		createMarker(place);
-		// add place info to table
-		setTableContent(place);
-		
 		var price_level = -1;
 		var name = place.name;
 		var website = place.website;
@@ -162,30 +158,38 @@ function details_callBack(place, status) {
 			data: json,
 			type: "POST",
 			
-			success: function(ret) {
-				console.log("After passing all locs ret is: " + ret.name);
+			success: function(bizList) {
+				console.log("After passing all locs ret is: " + bizList);
+				for(var i = 0; i < bizList.length && i < 10; i++) {
+					console.log("Name: " + bizList[i].name + "; " + bizList[i].address);
+					
+					// create marker for this place
+					createMarker(bizList[i]);
+					// add place info to table
+					setTableContent(bizList[i]);
+				}
 			}
 		});
 	}
 }
 
 function createMarker(place) {
- 	var placeLoc = place.geometry.location;
+ 	var placeLoc = new google.maps.LatLng(place.lat, place.lng);
  	var marker = new google.maps.Marker({
 		map: map,
-    	position: place.geometry.location
+    	position: placeLoc
   	});
   
   	google.maps.event.addListener(marker, 'click', function() {
   		if( place.website !== undefined ) {
 			infowindow.setContent("<h4>" + place.name + " (rating: " + place.rating + ")</h4>" + 
-	      						place.formatted_address +"<br />" + 
-	      						"Phone: " + place.formatted_phone_number + "<br />" +
+	      						place.address +"<br />" + 
+	      						"Phone: " + place.phone + "<br />" +
 	      						"<a href=\"" + place.website + "\" target=\"blank\">View website</a>");
 		} else {
 			infowindow.setContent("<h4>" + place.name + " (rating: " + place.rating + ")</h4>" + 
-	      						place.formatted_address +"<br />" + 
-	      						"Phone: " + place.formatted_phone_number + "<br />" +
+	      						place.address +"<br />" + 
+	      						"Phone: " + place.phone + "<br />" +
 	      						"No website provided<br />");
 		}
 		infowindow.open(map, this);
@@ -199,17 +203,6 @@ function setTableContent(place) {
 	var table = document.getElementById("places-table");
   	var table_body = table.getElementsByTagName("tbody")[0];
   	
-  	/*
-  	var distanceMatrix = new google.maps.DistanceMatrixService();
-  	
-  	distanceMatrix.getDistanceMatrix(
-	{
-		origins: [origin],
-		destinations: [place.geometry.location],
-		travelMode: google.maps.TravelMode.DRIVING
-	}, distance_callback);
-	*/
-  	
 	var row = table_body.insertRow( table_body.rows.length );
 	var ranking = row.insertCell(0);
 	var name = row.insertCell(1);
@@ -219,28 +212,8 @@ function setTableContent(place) {
 	
 	ranking.innerHTML = table_body.rows.length;
 	name.innerHTML = place.name;
-	address.innerHTML = place.formatted_address;
-	phone.innerHTML = place.formatted_phone_number;
+	address.innerHTML = place.address;
+	phone.innerHTML = place.phone;
 	rating.innerHTML = place.rating;
-}
-
-function distance_callback(response, status) {
-	if(status == google.maps.DistanceMatrixStatus.OK) {
-	    var origins = response.originAddresses;
-	    var destinations = response.destinationAddresses;
-	
-	    for (var i = 0; i < origins.length; i++) {
-	    	var results = response.rows[i].elements;
-	      	for (var j = 0; j < results.length; j++) {
-	        	var element = results[j];
-		        var distance = element.distance.value;
-		        var duration = element.duration.text;
-		        var from = origins[i];
-		        var to = destinations[j];
-		        
-		        console.log("From: " + from + ", to: " + to + " distance is: " + distance + " meters");
-	      	}
-		}
- 	}
 }
 
