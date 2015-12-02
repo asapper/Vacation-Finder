@@ -7,6 +7,7 @@ var numLocs = 0;
 var locsCount = 0;
 var criteria_radius = 0;
 var criteria_keyword = "";
+var markersArr = [];
 
 function initMap() {
 	
@@ -157,8 +158,11 @@ function details_callBack(place, status) {
 			type: "POST",
 			
 			success: function(bizList) {
-				var rank = 1;
-				for(var i = 0; i < bizList.length; i++) {
+				// clear markers
+				clearMarkers();
+			
+				var rank = 0;
+				for(var i = 0; i < bizList.length && i < 10; i++) {
 					if(bizList[i].lat != 0 || bizList[i].lng != 0) {
 						console.log("Passed: " + bizList[i].name);
 						// create marker for this place
@@ -186,21 +190,31 @@ function createMarker(place, rank) {
     	label: rank.toString(),
     	title: place.name
   	});
+  	
+  	// push to array of markers
+  	markersArr.push(marker);
   
 	// handle businesses with no phone, rating, website provided
+	var ratingText = " (rating: N/A)</h4>";
+	var phoneText = "Phone not provided<br />";
+	var websiteText = "No website provided<br />";
+	
+	if( place.rating != -1 ) {
+		ratingText = " (rating: " + place.rating + ")</h4>";
+	}
+	if( place.phone != "" ) {
+		phoneText = "Phone: " + place.phone + "<br />";
+	}
+	if( place.website != "" ) {
+		websiteText = "<a href=\"" + place.website + "\" target=\"blank\">View website</a>";
+	}
   
   	google.maps.event.addListener(marker, 'click', function() {
-  		if( place.website !== undefined ) {
-			infowindow.setContent("<h4>" + place.name + " (rating: " + place.rating + ")</h4>" + 
-	      						place.address +"<br />" + 
-	      						"Phone: " + place.phone + "<br />" +
-	      						"<a href=\"" + place.website + "\" target=\"blank\">View website</a>");
-		} else {
-			infowindow.setContent("<h4>" + place.name + " (rating: " + place.rating + ")</h4>" + 
-	      						place.address +"<br />" + 
-	      						"Phone: " + place.phone + "<br />" +
-	      						"No website provided<br />");
-		}
+		infowindow.setContent("<h4>" + place.name + ratingText + 
+      						place.address +"<br />" + 
+      						phoneText +
+      						websiteText);
+	      						
 		infowindow.open(map, this);
 	});
 	
@@ -224,5 +238,12 @@ function setTableContent(place) {
 	address.innerHTML = place.address;
 	phone.innerHTML = place.phone;
 	rating.innerHTML = place.rating;
+}
+
+function clearMarkers() {
+	for( var i = 0; i < markersArr.length; i++) {
+		markersArr[i].setMap(null);
+	}
+	markersArr.length = 0;
 }
 

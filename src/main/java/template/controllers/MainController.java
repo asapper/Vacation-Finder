@@ -99,6 +99,7 @@ public class MainController {
 		JSONObject tmpJson = new JSONObject();
 		
 		model.addAttribute("biz", biz);		
+		biz.setCoordinatesGoogle();
 		
 		if(biz.isNull()) {
 			thefacade.getGoogleAPIResults(businesses);
@@ -117,11 +118,11 @@ public class MainController {
 				tmpJson.put("address", listOfBusinesses.get(i).getAddress());
 				tmpJson.put("phone", listOfBusinesses.get(i).getPhoneNumber());
 				tmpJson.put("rating", listOfBusinesses.get(i).getAverageRating());
-				tmpJson.put("lat", listOfBusinesses.get(i).getLatitude());
-				tmpJson.put("lng", listOfBusinesses.get(i).getLongitude());
+				tmpJson.put("lat", listOfBusinesses.get(i).getCoordinates().getLatitude());
+				tmpJson.put("lng", listOfBusinesses.get(i).getCoordinates().getLongitude());
 				tmpJson.put("website", listOfBusinesses.get(i).getWebsite());
 				
-				System.out.println((ranking++) + ". Biz name: " + listOfBusinesses.get(i).getName() + "; AvgRating: " + listOfBusinesses.get(i).getAverageRating() + "; Lat: " + listOfBusinesses.get(i).getLatitude() + "; Lng: " + listOfBusinesses.get(i).getLongitude());
+				System.out.println((ranking++) + ". Biz name: " + listOfBusinesses.get(i).getName() + "; AvgRating: " + listOfBusinesses.get(i).getAverageRating() + "; Lat: " + listOfBusinesses.get(i).getCoordinates().getLatitude() + "; Lng: " + listOfBusinesses.get(i).getCoordinates().getLongitude());
 				
 				// add JSON Object to array
 				jsonArr.add(tmpJson);
