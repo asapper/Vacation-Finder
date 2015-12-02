@@ -103,15 +103,17 @@ function details_callBack(place, status) {
 		var latitude = place.geometry.location.lat();
 		var longitude = place.geometry.location.lng();
 		
-		console.log("--- Before sending loc: " + name + ", Lat: " + latitude + ", Lng: " + longitude + ", Rating: " + rating + ", Price: " + price_level);
-		
 		if(place.price_level !== undefined) {
 			price_level = place.price_level;
 		}
 		
-		var json = { "price" : price_level, "name" : name, "website" : website,
-					 "googleRating" : rating, "address" : address,
-					 "phoneNumber" : phone_number, "latitude" : latitude,
+		var json = { "price" : price_level,
+					 "name" : name,
+					 "website" : website,
+					 "googleRating" : rating,
+					 "address" : address,
+					 "phoneNumber" : phone_number,
+					 "latitude" : latitude,
 					 "longitude" : longitude };
 		
 		$.ajax({
@@ -164,7 +166,6 @@ function details_callBack(place, status) {
 				var rank = 0;
 				for(var i = 0; i < bizList.length && i < 10; i++) {
 					if(bizList[i].lat != 0 || bizList[i].lng != 0) {
-						console.log("Passed: " + bizList[i].name);
 						// create marker for this place
 						createMarker(bizList[i], rank++);
 						// add place info to table
@@ -180,9 +181,6 @@ function details_callBack(place, status) {
 }
 
 function createMarker(place, rank) {
-	console.log("######## MARKER ########");
-	console.log("Place lat: " + place.lat + "; lng: " + place.lng);
-
  	var placeLoc = new google.maps.LatLng(place.lat, place.lng);
  	var marker = new google.maps.Marker({
 		map: map,

@@ -5,12 +5,13 @@ public class Form {
 	  private int radius = 0;
 	  private String activity = "";
 	  private int rating = 0;
-	  private boolean deals = false;
+	  private boolean openStatus = false;
 	  private int groupSize = 0;
 	  private boolean cityError = false;
 	  private boolean activityError = false;
 	  private double longitude = 0;
 	  private double latitude = 0;
+	  private boolean deals = true;
 	  
 	  public String getCity(){
 		  return city;
@@ -44,12 +45,12 @@ public class Form {
 		  rating = newRating;
 	  }
 	  
-	  public boolean getDeals(){
-		  return deals;
+	  public boolean getOpenStatus(){
+		  return openStatus;
 	  }
 	  
-	  public void setDeals(boolean newDeals){
-		  deals = newDeals;
+	  public void setOpenStatus(boolean status){
+		  openStatus = status;
 	  }
 	  
 	  public int getGroupSize(){
@@ -90,6 +91,10 @@ public class Form {
 	  
 	  public double getLatitude(){
 	  		return latitude;
+	  }
+	  
+	  public boolean getDeals(){
+	  		return deals;
 	  }
 	  
 }
