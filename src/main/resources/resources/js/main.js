@@ -54,6 +54,7 @@ function initMap() {
 			// init map
 		 	map = new google.maps.Map(document.getElementById('map'), {
 		  		center: origin,
+		  		zoom: 10,
 		    	scrollwheel: false
 		  	});
 		  	
@@ -79,6 +80,9 @@ function initMap() {
 function callback(results, status) {
 	if (status === google.maps.places.PlacesServiceStatus.OK) {
 		numLocs = results.length;
+		
+		console.log("___ GooglePlaces returned " + numLocs + " results ___");
+		
 		for (var i = 0; i < numLocs; i++) {
     		var place = results[i];
     		var request = { placeId: place.place_id };
@@ -98,12 +102,14 @@ function details_callBack(place, status) {
 		var latitude = place.geometry.location.lat();
 		var longitude = place.geometry.location.lng();
 		
+		console.log("--- Before sending loc: " + name + ", Lat: " + latitude + ", Lng: " + longitude + ", Rating: " + rating + ", Price: " + price_level);
+		
 		if(place.price_level !== undefined) {
 			price_level = place.price_level;
 		}
 		
 		var json = { "price" : price_level, "name" : name, "website" : website,
-					 "rating" : rating, "address" : address,
+					 "googleRating" : rating, "address" : address,
 					 "phoneNumber" : phone_number, "latitude" : latitude,
 					 "longitude" : longitude };
 		
@@ -113,12 +119,7 @@ function details_callBack(place, status) {
 			type: "POST"
 		});
 		
-		
 		/*
-		console.log("*** For place \"" + place.name + "\"");
-		console.log("Latitude: " + place.geometry.location.lat());
-		console.log("Longitude: " + place.geometry.location.lng());
-		
 		console.log("HTML attributions: " + place.html_attributions);
 		console.log("Icon: " + place.icon);
 		console.log("Google page: " + place.url);
@@ -137,9 +138,6 @@ function details_callBack(place, status) {
 			console.log("Price level: " + place.price_level);
 		}
 		*/
-		
-		// update map bounds
-	    map.fitBounds(mapBounds);
 	}
 	
 	// increase locations counter
@@ -159,26 +157,37 @@ function details_callBack(place, status) {
 			type: "POST",
 			
 			success: function(bizList) {
-				console.log("After passing all locs ret is: " + bizList);
-				for(var i = 0; i < bizList.length && i < 10; i++) {
-					console.log("Name: " + bizList[i].name + "; " + bizList[i].address);
-					
-					// create marker for this place
-					createMarker(bizList[i]);
-					// add place info to table
-					setTableContent(bizList[i]);
+				var rank = 1;
+				for(var i = 0; i < bizList.length; i++) {
+					if(bizList[i].lat != 0 || bizList[i].lng != 0) {
+						console.log("Passed: " + bizList[i].name);
+						// create marker for this place
+						createMarker(bizList[i], rank++);
+						// add place info to table
+						setTableContent(bizList[i]);
+					}
 				}
+				
+				// update map bounds
+	    		map.fitBounds(mapBounds);
 			}
 		});
 	}
 }
 
-function createMarker(place) {
+function createMarker(place, rank) {
+	console.log("######## MARKER ########");
+	console.log("Place lat: " + place.lat + "; lng: " + place.lng);
+
  	var placeLoc = new google.maps.LatLng(place.lat, place.lng);
  	var marker = new google.maps.Marker({
 		map: map,
-    	position: placeLoc
+    	position: placeLoc,
+    	label: rank.toString(),
+    	title: place.name
   	});
+  
+	// handle businesses with no phone, rating, website provided
   
   	google.maps.event.addListener(marker, 'click', function() {
   		if( place.website !== undefined ) {

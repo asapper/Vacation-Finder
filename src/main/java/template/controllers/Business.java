@@ -147,12 +147,12 @@ public class Business {
 		return longitude;
 	}
 	
-	public void setLatitude(double l){
-		latitude = l;
+	public void setLatitude(double newLat){
+		latitude = newLat;
 	}
 	
-	public void setLongitude(double l){
-		longitude = l;
+	public void setLongitude(double newLng){
+		longitude = newLng;
 	}
 
 	/**

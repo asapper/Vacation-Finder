@@ -31,7 +31,51 @@ public class MainController {
 		model.addAttribute("form", form);
 		userForm = form;
 		
-		System.out.println("Calling Yelp API");
+		switch(form.getCity()){
+			case "Amarillo":
+				form.setLatitude(35.1992);
+				form.setLongitude(-101.8453);
+				break;
+			case "Austin":
+				form.setLatitude(30.2500);
+				form.setLongitude(-97.7500);
+				break;
+			case "College Station":
+				form.setLatitude(30.6014);
+				form.setLongitude(-96.3144);
+				break;
+			case "Corpus Christi":
+				form.setLatitude(27.7428);
+				form.setLongitude(-97.4019);
+				break;
+			case "Fort Worth":
+				form.setLatitude(32.7574);
+				form.setLongitude(-97.3332);
+				break;
+			case "Houston":
+				form.setLatitude(29.7604);
+				form.setLongitude(-95.3698);
+				break;
+			case "Lubbock":
+				form.setLatitude(33.5667);
+				form.setLongitude(-101.8833);
+				break;
+			case "San Antonio":
+				form.setLatitude(29.4167);
+				form.setLongitude(-98.5000);
+				break;
+			case "Waco":
+				form.setLatitude(31.5514);
+				form.setLongitude(-97.1558);
+				break;
+			default: // init to Dallas
+				form.setLatitude(32.806437331493);
+				form.setLongitude(-96.802432100254);
+		}
+		
+		thefacade.getForm(form);
+		
+		System.out.println("################# Calling Yelp API #################");
 		thefacade.getYelpAPIResults(YelpAPI.run(cmdArgs, 
 					form.getActivity(),
 					form.getCity(),
@@ -47,6 +91,7 @@ public class MainController {
 		model.addAttribute("biz", new Business());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/map", method=RequestMethod.POST)
 	@ResponseBody
 	public JSONArray mapPost(@ModelAttribute Business biz, Model model) {
@@ -58,26 +103,32 @@ public class MainController {
 		if(biz.isNull()) {
 			thefacade.getGoogleAPIResults(businesses);
 			listOfBusinesses = thefacade.getResults();
+			
+			int ranking = 1;
+			System.out.println("######### Sending to main.js #########");
+			
+			// add businesses to array of JSONs
+			for(int i = 0; i < listOfBusinesses.size(); i++) {
+				// re-init tmp JSON Object
+				tmpJson = new JSONObject();
+				
+				// add attributes
+				tmpJson.put("name", listOfBusinesses.get(i).getName());
+				tmpJson.put("address", listOfBusinesses.get(i).getAddress());
+				tmpJson.put("phone", listOfBusinesses.get(i).getPhoneNumber());
+				tmpJson.put("rating", listOfBusinesses.get(i).getAverageRating());
+				tmpJson.put("lat", listOfBusinesses.get(i).getLatitude());
+				tmpJson.put("lng", listOfBusinesses.get(i).getLongitude());
+				tmpJson.put("website", listOfBusinesses.get(i).getWebsite());
+				
+				System.out.println((ranking++) + ". Biz name: " + listOfBusinesses.get(i).getName() + "; AvgRating: " + listOfBusinesses.get(i).getAverageRating() + "; Lat: " + listOfBusinesses.get(i).getLatitude() + "; Lng: " + listOfBusinesses.get(i).getLongitude());
+				
+				// add JSON Object to array
+				jsonArr.add(tmpJson);
+			}
+			
 		} else {
 			businesses.add(biz);
-		}
-		
-		// add businesses to array of JSONs
-		for(Business aBiz : listOfBusinesses) {
-			// re-init tmp JSON Object
-			tmpJson = new JSONObject();
-			
-			// add attributes
-			tmpJson.put("name", aBiz.getName());
-			tmpJson.put("address", aBiz.getAddress());
-			tmpJson.put("phone", aBiz.getPhoneNumber());
-			tmpJson.put("rating", aBiz.getAverageRating());
-			tmpJson.put("lat", aBiz.getLatitude());
-			tmpJson.put("lng", aBiz.getLongitude());
-			tmpJson.put("website", aBiz.getWebsite());
-			
-			// add JSON Object to array
-			jsonArr.add(tmpJson);
 		}
 		
 		return jsonArr;

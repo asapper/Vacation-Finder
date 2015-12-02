@@ -85,7 +85,7 @@ public class Form {
 	  }
 	  
 	  public void setLatitude(double newLatitude){
-	  	   longitude = newLatitude;
+	  	   latitude = newLatitude;
 	  }
 	  
 	  public double getLatitude(){

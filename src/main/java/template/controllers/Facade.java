@@ -10,7 +10,6 @@ public class Facade {
 	private static Facade instance = new Facade();
 	static Business theBusiness = Business.getInstance();
 	private static Form theForm = new Form();
-	private static String[] cmdArgs = {""};
 	private static ArrayList<Business> YelpBusinesses = new ArrayList<>();
 	private static ArrayList<Business> GoogleBusinesses = new ArrayList<>();
 	private static ArrayList<Business> combinedBusinesses;
@@ -88,6 +87,7 @@ public class Facade {
 		}*/
 		
 		
+		
 		HashMap<Integer, Business> integrationMap = new HashMap<Integer, Business>();
 		for(int i = 0; i < YelpBusinesses.size(); i++){
 			
@@ -144,7 +144,7 @@ public class Facade {
 		
 		System.out.println("\nTop 10 Sorted Vacations\n");
 		
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < combinedBusinesses.size() && i < 10; i++){
 			System.out.println(combinedBusinesses.get(i).getName() + "\t\t Price: "+
 					combinedBusinesses.get(i).getPrice() + "\t\t Rating: " +
 					combinedBusinesses.get(i).getAverageRating());
@@ -166,6 +166,6 @@ public class Facade {
 		double e = Math.asin(d);
 		miles = 2 * 3959 * e;
 		return miles;
-		}
+	}
 	
 }
