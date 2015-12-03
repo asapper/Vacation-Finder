@@ -4,7 +4,7 @@ public class Form {
 	  private String city = "";
 	  private int radius = 0;
 	  private String activity = "";
-	  private int rating = 0;
+	  private int maxPrice = 0;
 	  private boolean openStatus = false;
 	  private int groupSize = 0;
 	  private boolean cityError = false;
@@ -37,12 +37,12 @@ public class Form {
 		  activity = newActivity;
 	  }
 	  
-	  public int getRating(){
-		  return rating;
+	  public int getMaxPrice(){
+		  return maxPrice;
 	  }
 	  
-	  public void setRating(int newRating){
-		  rating = newRating;
+	  public void setMaxPrice(int newMaxPrice){
+		  maxPrice = newMaxPrice;
 	  }
 	  
 	  public boolean getOpenStatus(){

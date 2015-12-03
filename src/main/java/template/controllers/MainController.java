@@ -122,12 +122,15 @@ public class MainController {
 				tmpJson.put("lng", listOfBusinesses.get(i).getCoordinates().getLongitude());
 				tmpJson.put("website", listOfBusinesses.get(i).getWebsite());
 				
-				System.out.println((ranking++) + ". Biz name: " + listOfBusinesses.get(i).getName() + "; AvgRating: " + listOfBusinesses.get(i).getAverageRating() + "; Lat: " + listOfBusinesses.get(i).getCoordinates().getLatitude() + "; Lng: " + listOfBusinesses.get(i).getCoordinates().getLongitude());
+				System.out.println((ranking++) + ". Biz name: " + listOfBusinesses.get(i).getName() + "; AvgRating: " + listOfBusinesses.get(i).getAverageRating() + "; isOpenNow: " + listOfBusinesses.get(i).getOpenStatus() + ";price: " + listOfBusinesses.get(i).getPrice() + "; weight: " + listOfBusinesses.get(i).getWeight() + "; numReviews: " + listOfBusinesses.get(i).getNumReviews());
 				
 				// add JSON Object to array
 				jsonArr.add(tmpJson);
 			}
 			
+			// clear list of businesses
+			businesses.clear();
+			listOfBusinesses.clear();
 		} else {
 			businesses.add(biz);
 		}
@@ -143,6 +146,7 @@ public class MainController {
 		json.put("city", userForm.getCity());
 		json.put("radius", userForm.getRadius());
 		json.put("type", userForm.getActivity());
+		json.put("openStatus", userForm.getOpenStatus());
 		
 		return json;
 	}

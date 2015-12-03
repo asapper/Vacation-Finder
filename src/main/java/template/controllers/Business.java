@@ -12,7 +12,7 @@ public class Business {
 	private String yelpSite = ""; // Link to yelp site URL
 	private double yelpRating = 0.0; // Yelp rating
 	private int numReviews = 0; // The number of reviews of the business
-	private double googleRating = -1.0; // The rating from the Google API
+	private double googleRating = 0.0; // The rating from the Google API
 	private double averageRating = 0.0; // The average rating between Yelp and Google
 	private String address = ""; // Street Address 
 	private String phoneNumber = ""; // Phone Number
@@ -23,12 +23,12 @@ public class Business {
 	private boolean hasDeal = false; // If the business has a deal
 	private String dealInfo = ""; // The info about the possible deal
 	private int price = -1; // The price of the business
-	private boolean isOpenNow = false; // Whether or not the business is open at the time of the search
+	private boolean openStatus = false; // Whether or not the business is open at the time of the search
 	private String photo = ""; // The URL of a photo of the business
 	private String googleReviewText = ""; // A sample google review
 	private double googleReviewRating = 0.0; // A sample google rating
 	private static Business business = new Business();
-	private double weight;
+	private double weight = 0.0;
 	
 	
 	
@@ -304,16 +304,16 @@ public class Business {
 	 * Returns whether or not the business is open at the time of the api call
 	 * @return
 	 */
-	public boolean isOpenNow() {
-		return isOpenNow;
+	public boolean getOpenStatus() {
+		return openStatus;
 	}
 
 	/**
 	 * Sets whether or not the business is open
 	 * @param isOpenNow
 	 */
-	public void setOpenNow(boolean isOpenNow) {
-		this.isOpenNow = isOpenNow;
+	public void setOpenStatus(boolean newOpenStatus) {
+		openStatus = newOpenStatus;
 	}
 
 	/**

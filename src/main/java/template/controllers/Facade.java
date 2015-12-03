@@ -34,7 +34,7 @@ public class Facade {
 	}
 	
 	public void callAlgorithm(){
-		Algorithm.algorithm(combinedBusinesses);
+		Algorithm.algorithm(combinedBusinesses, theForm.getOpenStatus(), theForm.getMaxPrice());
 	}
 	
 	public void getForm(Form form){
@@ -114,7 +114,7 @@ public class Facade {
 				combinedBusiness.setGoogleReviewText(tempGoogleBusiness.getGoogleReviewText());
 				combinedBusiness.setGoogleSingleReviewRating(tempGoogleBusiness.getGoogleSingleReviewRating());
 				combinedBusiness.setNumReviews(tempYelpBusiness.getNumReviews());
-				combinedBusiness.setOpenNow(tempGoogleBusiness.isOpenNow());
+				combinedBusiness.setOpenStatus(tempGoogleBusiness.getOpenStatus());
 				combinedBusiness.setPhoto(tempGoogleBusiness.getPhoto());		
 				combinedBusiness.setAverageRating((tempYelpBusiness.getAverageRating() + tempGoogleBusiness.getAverageRating()) / 2);
 				combinedBusiness.setPrice(tempGoogleBusiness.getPrice());

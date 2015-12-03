@@ -7,6 +7,7 @@ var numLocs = 0;
 var locsCount = 0;
 var criteria_radius = 0;
 var criteria_keyword = "";
+var criteria_openStatus = false;
 var markersArr = [];
 
 function initMap() {
@@ -19,6 +20,7 @@ function initMap() {
 			// convert to meters
 			criteria_radius = tmp.radius * 1609;
 			criteria_keyword = tmp.type;
+			criteria_openStatus = tmp.openStatus;
 			
 			switch(tmp.city) {
 				case "Amarillo":
@@ -68,7 +70,8 @@ function initMap() {
 		  	service.nearbySearch({
 		    	location: origin,
 		    	radius: criteria_radius, //max: 50,000 meters ~ 31 Miles
-		    	keyword: criteria_keyword
+		    	keyword: criteria_keyword,
+		    	openNow: criteria_openStatus
 		  	}, callback);
 		  
 		  	// init bounds
@@ -79,22 +82,57 @@ function initMap() {
 }
 
 function callback(results, status) {
-	if (status === google.maps.places.PlacesServiceStatus.OK) {
-		numLocs = results.length;
+	numLocs = results.length;
+	console.log("___ GooglePlaces returned " + numLocs + " results ___");
+
+	// check if GooglePlaces returned results
+	if(numLocs > 0) {
+		if (status === google.maps.places.PlacesServiceStatus.OK) {
+			for (var i = 0; i < numLocs; i++) {
+	    		var place = results[i];
+	    		var request = { placeId: place.place_id };
+	    		service.getDetails(request, details_callBack);
+	    	}
+	  	}
+	}
+	// else, get results from Yelp
+	else {
+		// send NULL object indicating all places have been sent
+    	var json = { "price" : -1, "name" : "", "website" : "",
+					 "rating" : -1, "address" : "",
+					 "phoneNumber" : "", "latitude" : -1,
+					 "longitude" : -1 };
 		
-		console.log("___ GooglePlaces returned " + numLocs + " results ___");
-		
-		for (var i = 0; i < numLocs; i++) {
-    		var place = results[i];
-    		var request = { placeId: place.place_id };
-    		service.getDetails(request, details_callBack);
-    	}
-  	}
+		$.ajax({
+			url: "http://localhost:8080/map",
+			data: json,
+			type: "POST",
+			
+			success: function(bizList) {
+				// clear markers
+				clearMarkers();
+			
+				var rank = 0;
+				for(var i = 0; i < bizList.length && i < 10; i++) {
+					if(bizList[i].lat != 0 || bizList[i].lng != 0) {
+						// create marker for this place
+						createMarker(bizList[i], rank++);
+						// add place info to table
+						setTableContent(bizList[i]);
+					}
+				}
+				
+				// update map bounds
+	    		map.fitBounds(mapBounds);
+			}
+		});
+	}
 }
 
 function details_callBack(place, status) {
 	if(status == google.maps.places.PlacesServiceStatus.OK) {
 		var price_level = -1;
+		var openStatus = false;
 		var name = place.name;
 		var website = place.website;
 		var rating = place.rating;
@@ -102,12 +140,24 @@ function details_callBack(place, status) {
 		var phone_number = place.formatted_phone_number;
 		var latitude = place.geometry.location.lat();
 		var longitude = place.geometry.location.lng();
+		var numReviews = 0;
 		
+		console.log("########### In main.js ###########");
+		
+		if(place.opening_hours !== undefined) {
+			openStatus = place.opening_hours.open_now;
+		}
+		if(place.reviews !== undefined) {
+			numReviews = place.reviews.length;
+		}
 		if(place.price_level !== undefined) {
 			price_level = place.price_level;
 		}
+		console.log("Biz: " + name + ", openStatus: " + openStatus + ", price: " + price_level);
 		
 		var json = { "price" : price_level,
+					 "openStatus" : openStatus,
+					 "numReviews" : numReviews,
 					 "name" : name,
 					 "website" : website,
 					 "googleRating" : rating,
@@ -121,26 +171,6 @@ function details_callBack(place, status) {
 			data: json,
 			type: "POST"
 		});
-		
-		/*
-		console.log("HTML attributions: " + place.html_attributions);
-		console.log("Icon: " + place.icon);
-		console.log("Google page: " + place.url);
-		console.log("Reviews: ");
-		
-		//for(var k = 0; k < place.reviews.length; k++) {
-			//console.log("\t[" + k + "] Author: " + place.reviews[k].author_name);
-			//console.log("\tAuthor's rating: " + place.reviews[k].rating);
-			//console.log("\tAuthor's text: " + place.reviews[k].text);
-		//}
-		
-		if(place.opening_hours !== undefined) {
-			console.log("Opening hours: --open now " + place.opening_hours.open_now);
-		}
-		if(place.price_level !== undefined) {
-			console.log("Price level: " + place.price_level);
-		}
-		*/
 	}
 	
 	// increase locations counter
@@ -234,7 +264,12 @@ function setTableContent(place) {
 	ranking.innerHTML = table_body.rows.length - 1;
 	name.innerHTML = place.name;
 	address.innerHTML = place.address;
-	phone.innerHTML = place.phone;
+	
+	if(place.phone == "") {
+		phone.innerHTML = "N/A";
+	} else {
+		phone.innerHTML = place.phone;
+	}
 	rating.innerHTML = place.rating;
 }
 

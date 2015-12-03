@@ -60,11 +60,33 @@
 	<h1><span>Explore. Discover. Live.</h1>
     <h2>Find outdoor spots you'll enjoy</h2>
 	
-	<div>
-		<a role="button" class="btn btn-default button-clear" href="">Express Search</a>
-		<a role="button" class="btn btn-default button-filled" href="">Custom Search</a>
-	</div>
+	<center>
+      <a role="button" class="btn btn-default button-clear" href="#default-searches">Express Search</a>
+      <a role="button" class="btn btn-default button-filled" href="#top-destinations">Custom Search</a>
+    </center>
   </section>
+  
+  <!-- Andy's Row -->
+  <div class="container" id="default-searches">
+    <!-- First row -->
+    <div class="row">
+      <div class="col-md-4 portfolio-item">
+        <a href="http://www.rowingdock.com/" target="_blank">
+          <img class="img-responsive" src="../images/Row_Dock_Austin.jpg" alt="">
+        </a>
+      </div>    
+      <div class="col-md-4 portfolio-item">
+        <a href="https://texasstateaquarium.org/" target="_blank">
+          <img class="img-responsive" src="../images/Texas_State_Aquarium_Corpus_Christi.jpg" alt="">
+        </a>
+      </div>      
+      <div class="col-md-4 portfolio-item">
+        <a href="http://www.klydewarrenpark.org/" target="_blank">
+          <img class="img-responsive" src="../images/Kylde_Warren_Park_Dallas.jpg" alt="">
+        </a>
+      </div>
+    </div>
+  </div>   
 
   <!-- Form -->
   <div class="housing-form-container container-fluid">
@@ -110,7 +132,7 @@
           <div class="form-group">
             <label for="">Activity</label>
             <select class="form-control" th:field="*{activity}">
-              <option value="camping">Camping</option>
+              <option value="campground">Camping</option>
               <option value="hiking">Hiking</option>
               <option value="biking">Biking</option>
               <option value="fishing">Fishing</option>
@@ -126,13 +148,13 @@
           </div>
 
           <div class="form-group">
-            <label for="">Minimum rating</label>
-            <select class="form-control" th:field="*{rating}">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+            <label for="">Max price</label>
+            <select class="form-control" th:field="*{maxPrice}">
+              <option value="0">0 - Free</option>
+              <option value="1">1 - Cheap</option>
+              <option value="2">2 - Affordable</option>
+              <option value="3">3 - Moderate</option>
+              <option value="4">4 - Expensive</option>
             </select>
           </div>
 
@@ -150,13 +172,61 @@
   </div>
 
   <!-- Why Outdoor Adventure Section -->
-  <div class="row">
-    <div class="col-md-12">
-      <div class="section">
-        <h3>Why Outdoor Adventure?</h3>
-        <p>Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason.</p>
+<div class="row">
+  <div class="col-md-12">
+    <div class="section">
+      <h3>Why Outdoor Adventure?</h3>
+      <p>Our team here at 2Legit2Quit are dedicated to providing the best customer service possible. Outdoor Adventure represents
+        months of dedicated work to produce the best outdoors vacation finder on the market. With intuitive algorithms and analysis,
+        a sleek and easily navigable user interface, and state of the art API integration, Outdoor Adventure brings the best the
+        vacationing world has to offer right to the user, wherever they are. Enjoy your perfect outdoor adventure.</p>
+      <img class="" src="../images/Outdoor_Adventure_Logo.svg">
       </div>
     </div>
+  </div>
+  
+  <!-- Top Destinations -->
+  <div class="container" id="top-destinations">
+  	<h3><center>Top Destinations</center></h3>
+    <!-- First row -->
+    <div class="row">
+      <div class="col-md-4 portfolio-item">
+        <a href="http://www.rowingdock.com/" target="_blank">
+          <img class="img-responsive" src="../images/Row_Dock_Austin.jpg" alt="">
+        </a>
+      </div>    
+      <div class="col-md-4 portfolio-item">
+        <a href="https://texasstateaquarium.org/" target="_blank">
+          <img class="img-responsive" src="../images/Texas_State_Aquarium_Corpus_Christi.jpg" alt="">
+        </a>
+      </div>      
+      <div class="col-md-4 portfolio-item">
+        <a href="http://www.klydewarrenpark.org/" target="_blank">
+          <img class="img-responsive" src="../images/Kylde_Warren_Park_Dallas.jpg" alt="">
+        </a>
+      </div>
+    </div>
+    <!-- /.row -->
+    
+    <!-- Second row -->
+    <div class="row">
+      <div class="col-md-4 portfolio-item">
+        <a href="http://www.lake-grapevine.com/rockledge-park/" target="_blank">
+          <img class="img-responsive" src="../images/Rockledge_Park_Ft_Worth.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-md-4 portfolio-item">
+        <a href="http://www.hermannpark.org/" target="_blank">
+          <img class="img-responsive" src="../images/Hermann_Park_Conservancy_Houston.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-md-4 portfolio-item">
+        <a href="http://www.waco-texas.com/cms-parksandrecreation/page.aspx?id=310" target="_blank">
+          <img class="img-responsive" src="../images/Cameron_Park_Waco.jpg" alt="">
+        </a>
+      </div>
+    </div>
+    <!-- /.row -->
   </div>
 
   <!-- Footer -->

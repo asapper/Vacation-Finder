@@ -38,7 +38,7 @@ public class YelpAPI {
   private static final int SEARCH_LIMIT = 20;
   private static final String SEARCH_PATH = "/v2/search";
   private static final String BUSINESS_PATH = "/v2/business";
-  private static final String CATEGORY_FILTER = "active, all";
+  private static final String CATEGORY_FILTER = "campground, hiking, mountainbiking, fishing, rock_climbing, hanggliding, paddleboarding, lakes, sailing, rafting, tubing, wildlifehunting";
   public static String newLocation = "";
   public static String newTerm = "";
   public static int radiusFilter = 0;
@@ -210,14 +210,28 @@ public class YelpAPI {
   public static Business parseBusiness(String info){
 	  Business tempBusiness = new Business();
 	  
+	  System.out.println(info);
+	  
 	  // Finds the name
 	  int nameIndex = info.indexOf("\"name\"");
 	  int nameIndexOffset = nameIndex + 9;
 	  int nameEndIndex = info.indexOf("\"", nameIndexOffset);
 	  String tempName = info.substring(nameIndexOffset, nameEndIndex);
 	  StringBuffer tempSB = removeUTFCharacters(tempName);
-	  tempName = tempSB.toString();	  
+	  tempName = tempSB.toString();	 
 	  tempBusiness.setName(tempName);
+	  
+	  if(tempName.charAt(tempName.length() - 1) == '.') {
+		  nameIndex = info.indexOf("\"name\"", nameEndIndex);
+		  nameIndexOffset = nameIndex + 9;
+		  nameEndIndex = info.indexOf("\"", nameIndexOffset);
+		  tempName = info.substring(nameIndexOffset, nameEndIndex);
+		  tempSB = removeUTFCharacters(tempName);
+		  tempName = tempSB.toString();	 
+		  tempBusiness.setName(tempName);
+		  
+	  }
+	  
 	  System.out.println(tempName);
 	  
 	  
