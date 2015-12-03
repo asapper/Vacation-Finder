@@ -11,7 +11,8 @@ body {
 }
 
 .footer {
-  	color: #2ea485;
+	background-color: #34495E;
+  	color: #fff;
 
   	font-size: 1.5rem;
   	padding-top: 40px;
@@ -26,6 +27,16 @@ body {
   	margin-left: .5em;
 }
 
+.button-clear {
+
+}
+
+.button-filled {
+
+}
+
+
+
 /******************************************************************************
  * INDEX PAGE
  *****************************************************************************/
@@ -34,6 +45,7 @@ body {
 	background: transparent;
 	border: 0;
 	padding: 1em;
+	margin: 0;
 }
 
 .housing-form-container {
@@ -46,10 +58,36 @@ body {
 }
 
 .section {
-  	text-align:center;
-  	background: white;
+  text-align:center;
+  background: white;
  	padding:10px;
 }
+
+.landing-image {
+  height: 550px;
+
+  background: url('/images/persons-backg.jpg') #22A7F0 center no-repeat;
+  background-size: cover;
+}
+
+.landing-image h1 {
+	font-size: 7rem;
+
+	text-align: center;
+	margin: 0;
+	padding-top: 200px;
+}
+
+.landing-image div {
+	margin: auto;
+}
+
+.landing-image h2 {
+	margin-top: 35px;
+	text-align: center;
+}
+
+
 
 /******************************************************************************
  * MAIN NAVBAR TEXT
@@ -83,7 +121,7 @@ body {
     background-color:rgba(255,255,255,.8);
 }
 #login-dp .help-block {
-    font-size:12px    
+    font-size:12px
 }
 #login-dp .bottom {
     background-color:rgba(255,255,255,.8);
@@ -95,6 +133,8 @@ body {
     margin-bottom: 10px;
 }
 
+
+
 /******************************************************************************
  * MAP PAGE
  *****************************************************************************/
@@ -102,7 +142,7 @@ body {
 .navbar-map {
 	border: 0;
 	border-radius: 0;
-	
+
 	padding: 1em;
 	background-color: #26A65B;
 }

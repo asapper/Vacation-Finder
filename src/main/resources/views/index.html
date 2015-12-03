@@ -13,26 +13,26 @@
 
 </head>
 <body>
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-      <![endif]-->
+  <!--[if lt IE 10]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
 
-      <!-- Navbar -->
-      <div class="promo">
-        <div class="promo-mask">
-          <nav class="navbar navbar-default navbar-home" role="navigation">
-            <div class="container-fluid">
-              <div class="navbar-header">
-                <a class="navbar-brand" href="/">
-                  <h3 class="logo-text">Outdoor Adventure</h3>
-                </a>
-              </div>
-              <ul class="nav navbar-nav navbar-right">
-               <li><p class="navbar-text">Already have an account?</p></li>
-               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
-                <ul id="login-dp" class="dropdown-menu">
-                 <li>
+  <!-- Navbar -->
+  <div class="promo">
+    <div class="promo-mask">
+      <nav class="navbar navbar-default navbar-home" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+              <h3 class="logo-text">Outdoor Adventure</h3>
+            </a>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li><p class="navbar-text">Already have an account?</p></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+              <ul id="login-dp" class="dropdown-menu">
+                <li>
                   <div class="row">
                     <div class="col-md-12">
                       <form class="navbar-form navbar-right">
@@ -54,102 +54,111 @@
       </nav>
     </div>
   </div>
+
+  <!-- Landing Image -->
+  <section class="landing-image">
+	<h1><span>Explore. Discover. Live.</h1>
+    <h2>Find outdoor spots you'll enjoy</h2>
+	
+	<div>
+		<a role="button" class="btn btn-default button-clear" href="">Express Search</a>
+		<a role="button" class="btn btn-default button-filled" href="">Custom Search</a>
+	</div>
+  </section>
+
   <!-- Form -->
-<div class="housing-form-container container-fluid">
-      <div class="row">
-        <div class="col-md-4 col-md-offset-4">          
-          <form action="#" th:action="@{/}" th:object="${form}" method="post">
-          	<div th:if="${form.getCityError()} == true">
-          		<p>
-          			<b>
-          			<span class="error">
-          				Please enter a city.
-          			</span>
-          			</b>
-          		</p>
-			</div>
-            <div class="form-group">
-              <label for="">
-                City in Texas
-              </label>
-              <select class="form-control" th:field="*{city}">
-                <option value="Amarillo;">Amarillo, TX</option>
-                <option value="Austin;">Austin, TX</option>
-                <option value="College Station;">College Station, TX</option>
-                <option value="Corpus Christi;">Corpus Christi, TX</option>
-                <option value="Dallas;">Dallas, TX</option>
-                <option value="Fort Worth;">Fort Worth, TX</option>
-                <option value="Houston;">Houston, TX</option>
-                <option value="Lubbock;">Lubbock, TX</option>
-                <option value="San Antonio;">San Antonio, TX</option>
-                <option value="Waco;">Waco, TX</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="">Range from Selected City</label>
-              <select class="form-control" th:field="*{radius}">
-                <option value="5">5 miles</option>
-                <option value="10">10 miles</option>
-                <option value="15">15 miles</option>
-                <option value="20">20 miles</option>
-                <option value="25">25 miles</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="">Activity</label>
-              <select class="form-control" th:field="*{activity}">
-                <option value="camping">Camping</option>
-                <option value="hiking">Hiking</option>
-                <option value="biking">Biking</option>
-                <option value="fishing">Fishing</option>
-                <option value="climbing">Climbing</option>
-                <option value="hang_gliding">Hang gliding</option>
-                <option value="paddle_boarding">Paddle Board</option>
-                <option value="lakes">Lakes</option>
-                <option value="sailing">Sailing</option>
-                <option value="kayaking">Kayaking</option>
-                <option value="tubing">Tubing</option>
-                <option value="hunting">Hunting</option>
-              </select>
-            </div>
-              
-            
-            <div class="form-group">
-              <label for="">Desired rating</label>
-              <select class="form-control" th:field="*{rating}">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </div>
-            
-           	<div class="form-group">
-              <label for="">Open Now</label>
-              <select class="form-control" th:field="*{openStatus}">
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-              </select>
-            </div>    
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Find Vacations</button>
-          </form>
-        </div>
+  <div class="housing-form-container container-fluid">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <form action="#" th:action="@{/}" th:object="${form}" method="post">
+    	   <div th:if="${form.getCityError()} == true">
+           <p>
+             <b>
+               <span class="error">Please enter a city.</span>
+             </b>
+           </p>
+         </div>
+         <div class="form-group">
+           <label for="">
+             City in Texas
+           </label>
+           <select class="form-control" th:field="*{city}">
+             <option value="Amarillo">Amarillo, TX</option>
+             <option value="Austin">Austin, TX</option>
+             <option value="College Station">College Station, TX</option>
+             <option value="Corpus Christi">Corpus Christi, TX</option>
+             <option value="Dallas">Dallas, TX</option>
+             <option value="Fort Worth">Fort Worth, TX</option>
+             <option value="Houston">Houston, TX</option>
+             <option value="Lubbock">Lubbock, TX</option>
+             <option value="San Antonio">San Antonio, TX</option>
+             <option value="Waco">Waco, TX</option>
+           </select>
+         </div>
+
+         <div class="form-group">
+            <label for="">Range from Selected City</label>
+            <select class="form-control" th:field="*{radius}">
+              <option value="5">5 miles</option>
+              <option value="10">10 miles</option>
+              <option value="15">15 miles</option>
+              <option value="20">20 miles</option>
+              <option value="30">30 miles</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="">Activity</label>
+            <select class="form-control" th:field="*{activity}">
+              <option value="camping">Camping</option>
+              <option value="hiking">Hiking</option>
+              <option value="biking">Biking</option>
+              <option value="fishing">Fishing</option>
+              <option value="climbing">Climbing</option>
+              <option value="hang_gliding">Hang gliding</option>
+              <option value="paddle_boarding">Paddle Board</option>
+              <option value="lakes">Lakes</option>
+              <option value="sailing">Sailing</option>
+              <option value="kayaking">Kayaking</option>
+              <option value="tubing">Tubing</option>
+              <option value="hunting">Hunting</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="">Minimum rating</label>
+            <select class="form-control" th:field="*{rating}">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="">Open Now</label>
+            <select class="form-control" th:field="*{openStatus}">
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Find Vacations</button>
+        </form>
       </div>
     </div>
-    
+  </div>
+
   <!-- Why Outdoor Adventure Section -->
   <div class="row">
-  <div class="col-md-12">
-  	<div class="section">
-    <h3>Why Outdoor Adventure?</h3>
-    <p>Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason.</p>
-    </div>
+    <div class="col-md-12">
+      <div class="section">
+        <h3>Why Outdoor Adventure?</h3>
+        <p>Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason. Bullshit reason.</p>
+      </div>
     </div>
   </div>
-  
+
   <!-- Footer -->
   <div class="footer">
     Designed and created by 2Legit2Quit.
@@ -161,8 +170,5 @@
   <script src="/js/main.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <!-- endbuild -->
-  
 </body>
-
-
 </html>

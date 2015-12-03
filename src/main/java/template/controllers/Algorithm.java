@@ -13,19 +13,34 @@ public class Algorithm {
 	static void algorithm(ArrayList<Business> businesses){
 		
 		for(int i = 0; i < businesses.size(); i++){
+			
 			//Rank is raised as a function of rating
+			if(businesses.get(i).getAverageRating() == 0.0){
+				//Set Rating to Median Rating if none is given
+				businesses.get(i).setAverageRating(3.0);
+			}
 			businesses.get(i).setWeight(businesses.get(i).getWeight() +  
-					(businesses.get(i).getAverageRating() * 5) * businesses.get(i).getNumReviews());
+				(businesses.get(i).getAverageRating() * 5) * businesses.get(i).getNumReviews());
+			System.out.println(" Algorithm Number of Reviews: " + businesses.get(i).getNumReviews());
+			
 			
 			//Rank is lowered as a function of distance from city
 			businesses.get(i).setWeight(businesses.get(i).getWeight() 
 					- (businesses.get(i).getDistance()/2));
+			System.out.println("Algorithm Distance: " + businesses.get(i).getDistance());
+			
+			if(businesses.get(i).getPrice() == -1){
+				//No prices for this business, set to median price
+				businesses.get(i).setPrice(2);
+			}
 			
 			//Rank is lowered as a function of price
 			businesses.get(i).setWeight(businesses.get(i).getWeight() 
 					- (businesses.get(i).getPrice() * 2));
+			System.out.println("Algorithm Price: " + businesses.get(i).getPrice());
 			
-			//Rank is lowered by 1 if no deals offered
+			
+			//Rank is lowered if no deals are offered
 			if(!(businesses.get(i).hasDeal())){
 				businesses.get(i).setWeight(businesses.get(i).getWeight() - 5);
 			}

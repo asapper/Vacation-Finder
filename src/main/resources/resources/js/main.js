@@ -231,7 +231,7 @@ function setTableContent(place) {
 	var phone = row.insertCell(3);
 	var rating = row.insertCell(4);
 	
-	ranking.innerHTML = table_body.rows.length;
+	ranking.innerHTML = table_body.rows.length - 1;
 	name.innerHTML = place.name;
 	address.innerHTML = place.address;
 	phone.innerHTML = place.phone;
