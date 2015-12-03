@@ -83,7 +83,6 @@ function initMap() {
 
 function callback(results, status) {
 	numLocs = results.length;
-	console.log("___ GooglePlaces returned " + numLocs + " results ___");
 
 	// check if GooglePlaces returned results
 	if(numLocs > 0) {
@@ -142,8 +141,6 @@ function details_callBack(place, status) {
 		var longitude = place.geometry.location.lng();
 		var numReviews = 0;
 		
-		console.log("########### In main.js ###########");
-		
 		if(place.opening_hours !== undefined) {
 			openStatus = place.opening_hours.open_now;
 		}
@@ -153,7 +150,6 @@ function details_callBack(place, status) {
 		if(place.price_level !== undefined) {
 			price_level = place.price_level;
 		}
-		console.log("Biz: " + name + ", openStatus: " + openStatus + ", price: " + price_level);
 		
 		var json = { "price" : price_level,
 					 "openStatus" : openStatus,
@@ -260,6 +256,7 @@ function setTableContent(place) {
 	var address = row.insertCell(2);
 	var phone = row.insertCell(3);
 	var rating = row.insertCell(4);
+	var openNow = row.insertCell(5);
 	
 	ranking.innerHTML = table_body.rows.length - 1;
 	name.innerHTML = place.name;
@@ -271,6 +268,12 @@ function setTableContent(place) {
 		phone.innerHTML = place.phone;
 	}
 	rating.innerHTML = place.rating;
+	
+	if(place.openStatus) {
+		openNow.innerHTML = "Yes";
+	} else {
+		openNow.innerHTML = "No";
+	}
 }
 
 function clearMarkers() {

@@ -18,6 +18,7 @@ public class MainController {
 	ArrayList <Business> businesses = new ArrayList<>();
 	Facade thefacade = Facade.getInstance();
 	ArrayList<Business> listOfBusinesses;
+	int expressLoc = 0;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String homeForm(Model model) {
@@ -86,6 +87,34 @@ public class MainController {
 		return "map";
 	}
 	
+	@RequestMapping(value="/express1", method=RequestMethod.GET)
+	public String express1Get(Model model) {
+		// set location to first option
+		expressLoc = 1;
+		return "express";
+	}
+	
+	@RequestMapping(value="/express2", method=RequestMethod.GET)
+	public String express2Get(Model model) {
+		// set location to second option
+		expressLoc = 2;
+		return "express";
+	}
+	
+	@RequestMapping(value="/express3", method=RequestMethod.GET)
+	public String express3Get(Model model) {
+		// set location to third option
+		expressLoc = 3;
+		return "express";
+	}
+	
+	@RequestMapping(value="/express", method=RequestMethod.POST)
+	@ResponseBody
+	public int expressPost(Model model) {
+		// return express location chosen by user
+		return expressLoc;
+	}
+	
 	@RequestMapping(value="/map", method=RequestMethod.GET)
 	public void mapGet(Model model) {
 		model.addAttribute("biz", new Business());
@@ -116,11 +145,12 @@ public class MainController {
 				// add attributes
 				tmpJson.put("name", listOfBusinesses.get(i).getName());
 				tmpJson.put("address", listOfBusinesses.get(i).getAddress());
-				tmpJson.put("phone", listOfBusinesses.get(i).getPhoneNumber());
+				tmpJson.put("phone", listOfBusinesses.get(i).formatPhoneNumber());
 				tmpJson.put("rating", listOfBusinesses.get(i).getAverageRating());
 				tmpJson.put("lat", listOfBusinesses.get(i).getCoordinates().getLatitude());
 				tmpJson.put("lng", listOfBusinesses.get(i).getCoordinates().getLongitude());
 				tmpJson.put("website", listOfBusinesses.get(i).getWebsite());
+				tmpJson.put("openStatus", listOfBusinesses.get(i).getOpenStatus());
 				
 				System.out.println((ranking++) + ". Biz name: " + listOfBusinesses.get(i).getName() + "; AvgRating: " + listOfBusinesses.get(i).getAverageRating() + "; isOpenNow: " + listOfBusinesses.get(i).getOpenStatus() + ";price: " + listOfBusinesses.get(i).getPrice() + "; weight: " + listOfBusinesses.get(i).getWeight() + "; numReviews: " + listOfBusinesses.get(i).getNumReviews());
 				

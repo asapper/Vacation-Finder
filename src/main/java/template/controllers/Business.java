@@ -377,7 +377,11 @@ public class Business {
 	 * @return
 	 */
 	public String formatPhoneNumber(){
-		return("(" + phoneNumber.substring(0, 3) + ")" + phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10));
+		if(phoneNumber.length() > 9 && phoneNumber.charAt(0) != '(') {
+			return("(" + phoneNumber.substring(0, 3) + ") " + phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10));
+		}
+		
+		return phoneNumber;
 	}
 	
 	public double getWeight(){

@@ -62,34 +62,40 @@
 	
 	<center>
       <a role="button" class="btn btn-default button-clear" href="#default-searches">Express Search</a>
-      <a role="button" class="btn btn-default button-filled" href="#top-destinations">Custom Search</a>
+      <a role="button" class="btn btn-default button-filled" href="#custom-search">Custom Search</a>
     </center>
   </section>
   
   <!-- Andy's Row -->
   <div class="container" id="default-searches">
+  	<h3><center>Express Searches</center></h3>
+  	<p>Don't spend time typing criteria, find results immediately</p>
     <!-- First row -->
     <div class="row">
       <div class="col-md-4 portfolio-item">
-        <a href="http://www.rowingdock.com/" target="_blank">
-          <img class="img-responsive" src="../images/Row_Dock_Austin.jpg" alt="">
-        </a>
+        <a role="button" href="/express1">Camping near Dallas, TX</a>
       </div>    
       <div class="col-md-4 portfolio-item">
-        <a href="https://texasstateaquarium.org/" target="_blank">
-          <img class="img-responsive" src="../images/Texas_State_Aquarium_Corpus_Christi.jpg" alt="">
-        </a>
+        <a role="button" href="/express2">Biking near Houston, TX</a>
       </div>      
       <div class="col-md-4 portfolio-item">
-        <a href="http://www.klydewarrenpark.org/" target="_blank">
-          <img class="img-responsive" src="../images/Kylde_Warren_Park_Dallas.jpg" alt="">
-        </a>
+        <a role="button" href="/express3">Hiking near Austin, TX</a>
       </div>
     </div>
   </div>   
+  
+  <div class="row">
+	  <div class="col-md-12">
+	    <div class="section">
+	      <h3>Instructions or Something</h3>
+	      <p><center>Some other text here.</center></p>
+	      </div>
+	    </div>
+	  </div>
+  </div>
 
   <!-- Form -->
-  <div class="housing-form-container container-fluid">
+  <div class="housing-form-container container-fluid" id="custom-search">
     <div class="row">
       <div class="col-md-4 col-md-offset-4">
         <form action="#" th:action="@{/}" th:object="${form}" method="post">
@@ -180,29 +186,30 @@
         months of dedicated work to produce the best outdoors vacation finder on the market. With intuitive algorithms and analysis,
         a sleek and easily navigable user interface, and state of the art API integration, Outdoor Adventure brings the best the
         vacationing world has to offer right to the user, wherever they are. Enjoy your perfect outdoor adventure.</p>
-      <img class="" src="../images/Outdoor_Adventure_Logo.svg">
+      <img class="" src="../images/Outdoor_Adventure_Logo.png">
       </div>
     </div>
   </div>
   
   <!-- Top Destinations -->
-  <div class="container" id="top-destinations">
+  <div class="container">
   	<h3><center>Top Destinations</center></h3>
+  	<p><center>Visit the websites of our top destinations</center></p>
     <!-- First row -->
     <div class="row">
       <div class="col-md-4 portfolio-item">
         <a href="http://www.rowingdock.com/" target="_blank">
-          <img class="img-responsive" src="../images/Row_Dock_Austin.jpg" alt="">
+          <img class="img-responsive" src="../images/Row_Dock_Austin.jpg" alt="Austin Rowing Dock">
         </a>
       </div>    
       <div class="col-md-4 portfolio-item">
         <a href="https://texasstateaquarium.org/" target="_blank">
-          <img class="img-responsive" src="../images/Texas_State_Aquarium_Corpus_Christi.jpg" alt="">
+          <img class="img-responsive" src="../images/Texas_State_Aquarium_Corpus_Christi.jpg" alt="Corpus Christi Aquarium">
         </a>
       </div>      
       <div class="col-md-4 portfolio-item">
         <a href="http://www.klydewarrenpark.org/" target="_blank">
-          <img class="img-responsive" src="../images/Kylde_Warren_Park_Dallas.jpg" alt="">
+          <img class="img-responsive" src="../images/Kylde_Warren_Park_Dallas.jpg" alt="Dallas Kylde Warren Park">
         </a>
       </div>
     </div>
@@ -212,17 +219,17 @@
     <div class="row">
       <div class="col-md-4 portfolio-item">
         <a href="http://www.lake-grapevine.com/rockledge-park/" target="_blank">
-          <img class="img-responsive" src="../images/Rockledge_Park_Ft_Worth.jpg" alt="">
+          <img class="img-responsive" src="../images/Rockledge_Park_Ft_Worth.jpg" alt="Fort Worth Rockledge Park">
         </a>
       </div>
       <div class="col-md-4 portfolio-item">
         <a href="http://www.hermannpark.org/" target="_blank">
-          <img class="img-responsive" src="../images/Hermann_Park_Conservancy_Houston.jpg" alt="">
+          <img class="img-responsive" src="../images/Hermann_Park_Conservancy_Houston.jpg" alt="Houston Hermann Park">
         </a>
       </div>
       <div class="col-md-4 portfolio-item">
         <a href="http://www.waco-texas.com/cms-parksandrecreation/page.aspx?id=310" target="_blank">
-          <img class="img-responsive" src="../images/Cameron_Park_Waco.jpg" alt="">
+          <img class="img-responsive" src="../images/Cameron_Park_Waco.jpg" alt="Waco Cameron Park">
         </a>
       </div>
     </div>
