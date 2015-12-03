@@ -17,17 +17,45 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <nav class="navbar navbar-default navbar-static-top navbar-map" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">
-            <h3 class="logo-text">Outdoor Adventure</h3>
-          </a>
-        </div>
-      </div>
-    </nav>
+    <!-- Navbar -->
+	<div class="promo">
+	    <div class="promo-mask">
+	      <nav class="navbar navbar-default navbar-home" role="navigation">
+	        <div class="container-fluid">
+	          <div class="navbar-header">
+	            <a class="navbar-brand" href="/">
+	              <h3 class="logo-text">Outdoor Adventure</h3>
+	            </a>
+	          </div>
+	          <ul class="nav navbar-nav navbar-right">
+	            <li><p class="navbar-text">Already have an account?</p></li>
+	            <li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+	              <ul id="login-dp" class="dropdown-menu">
+	                <li>
+	                  <div class="row">
+	                    <div class="col-md-12">
+	                      <form class="navbar-form navbar-right">
+	                        <div class="form-group">
+	                          <input type="text" class="form-control" name="username" placeholder="Username" required>
+	                        </div>
+	                        <div class="form-group">
+	                          <input type="password" class="form-control" name="password" placeholder="Password" required>
+	                        </div>
+	                        <button type="submit" class="btn btn-default">Sign In</button>
+	                      </form>
+	                    </div>
+	                  </div>
+	                </li>
+	              </ul>
+	            </li>
+	          </ul>
+	        </div>
+	      </nav>
+	    </div>
+	</div>
 
-	<a role="button" class="button button-default" href="/">Make New Search</a>
+	<a class="btn btn-warning button-new" href="/" role="button">Make New Search</a>
 
     <div class="map-outer-container">
       <div class="map-container">
