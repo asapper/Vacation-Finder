@@ -16,9 +16,9 @@ public class Business {
 	private double averageRating = 0.0; // The average rating between Yelp and Google
 	private String address = ""; // Street Address 
 	private String phoneNumber = ""; // Phone Number
-	private Coordinate coordinates = new Coordinate(); // Coordinates
-	private double latitude = 0.0;
-	private double longitude = 0.0;
+	private Coordinate coordinates = new Coordinate(); // Coordinates of the business
+	private double latitude = 0.0; // The businesses latitude (temporarily used)
+	private double longitude = 0.0; // The businesses longitude (temporarily used)
 	private double distance = 0.0; // Distance from specified location
 	private boolean hasDeal = false; // If the business has a deal
 	private String dealInfo = ""; // The info about the possible deal
@@ -27,8 +27,8 @@ public class Business {
 	private String photo = ""; // The URL of a photo of the business
 	private String googleReviewText = ""; // A sample google review
 	private double googleReviewRating = 0.0; // A sample google rating
-	private static Business business = new Business();
-	private double weight = 0.0;
+	private static Business business = new Business(); // A Singleton object of the business
+	private double weight = 0.0; // The weights (or points) assigned to the business for ranking
 	
 	
 	
@@ -47,6 +47,10 @@ public class Business {
 		name = newName;
 	}
 	
+	/**
+	 * Returns an instance of the business object
+	 * @return
+	 */
 	public static Business getInstance(){
 		return business;
 	}
@@ -66,6 +70,7 @@ public class Business {
 	public void setName(String newName){
 		name = newName;
 	}
+	
 	/**
 	 * Returns yelp website URL
 	 * @return
@@ -139,18 +144,34 @@ public class Business {
 		return coordinates;
 	}
 	
+	/**
+	 * Gets the latitude
+	 * @return
+	 */
 	public double getLatitude(){
 		return latitude;
 	}
 	
+	/**
+	 * Gets the longitude
+	 * @return
+	 */
 	public double getLongitude(){
 		return longitude;
 	}
 	
+	/**
+	 * Sets the latitude
+	 * @param newLat
+	 */
 	public void setLatitude(double newLat){
 		latitude = newLat;
 	}
 	
+	/**
+	 * Sets the longitude
+	 * @param newLng
+	 */
 	public void setLongitude(double newLng){
 		longitude = newLng;
 	}
@@ -163,6 +184,9 @@ public class Business {
 		this.coordinates = coordinates;
 	}
 	
+	/**
+	 * Sets the coordinates of the business once we have them from Google Places
+	 */
 	public void setCoordinatesGoogle(){
 		this.coordinates.setLatitude(latitude);
 		this.coordinates.setLongitude(longitude);
@@ -289,6 +313,10 @@ public class Business {
 		return averageRating;
 	}
 	
+	/**
+	 * Sets the average rating
+	 * @param newAvg
+	 */
 	public void setAverageRating(double newAvg){
 		averageRating = newAvg;
 	}
@@ -384,14 +412,26 @@ public class Business {
 		return phoneNumber;
 	}
 	
+	/**
+	 * Gets the weight of the business
+	 * @return
+	 */
 	public double getWeight(){
 		return weight;
 	}
 	
+	/**
+	 * Sets the weight of the object
+	 * @param w
+	 */
 	public void setWeight(double w){
 		weight = w;
 	}
 	
+	/**
+	 * Checks to see if the business is null (has no name)
+	 * @return
+	 */
 	public boolean isNull(){
 		return name.equals("");
 	}

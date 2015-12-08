@@ -1,3 +1,11 @@
+/**
+ * Author: 2Legit2Quit Team
+ * Date: 11/4/15
+ * 
+ * Last modified: 12/07/15
+ * 		- by Andy Sapper
+ */
+
 package template.controllers;
 
 import java.util.ArrayList;
@@ -76,7 +84,6 @@ public class MainController {
 		
 		thefacade.getForm(form);
 		
-		System.out.println("################# Calling Yelp API #################");
 		thefacade.getYelpAPIResults(YelpAPI.run(cmdArgs, 
 					form.getActivity(),
 					form.getCity(),
@@ -134,9 +141,6 @@ public class MainController {
 			thefacade.getGoogleAPIResults(businesses);
 			listOfBusinesses = thefacade.getResults();
 			
-			int ranking = 1;
-			System.out.println("######### Sending to main.js #########");
-			
 			// add businesses to array of JSONs
 			for(int i = 0; i < listOfBusinesses.size(); i++) {
 				// re-init tmp JSON Object
@@ -151,8 +155,6 @@ public class MainController {
 				tmpJson.put("lng", listOfBusinesses.get(i).getCoordinates().getLongitude());
 				tmpJson.put("website", listOfBusinesses.get(i).getWebsite());
 				tmpJson.put("openStatus", listOfBusinesses.get(i).getOpenStatus());
-				
-				System.out.println((ranking++) + ". Biz name: " + listOfBusinesses.get(i).getName() + "; AvgRating: " + listOfBusinesses.get(i).getAverageRating() + "; isOpenNow: " + listOfBusinesses.get(i).getOpenStatus() + ";price: " + listOfBusinesses.get(i).getPrice() + "; weight: " + listOfBusinesses.get(i).getWeight() + "; numReviews: " + listOfBusinesses.get(i).getNumReviews());
 				
 				// add JSON Object to array
 				jsonArr.add(tmpJson);

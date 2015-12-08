@@ -1,3 +1,10 @@
+/**
+ * Author: Evan Westermann
+ * Date Created: 11/4/15
+ * 
+ * Last Modified: 12/6/15
+ * Last Modified By: Carter Ratley
+ */
 package template.controllers;
 
 import java.util.ArrayList;
@@ -7,15 +14,18 @@ import java.util.HashSet;
 
 public class Facade {
 	
-	private static Facade instance = new Facade();
-	static Business theBusiness = Business.getInstance();
-	private static Form theForm = new Form();
-	private static ArrayList<Business> YelpBusinesses = new ArrayList<>();
-	private static ArrayList<Business> GoogleBusinesses = new ArrayList<>();
-	private static ArrayList<Business> combinedBusinesses;
-	private static HashSet<Business> businesses = new HashSet<>();
+	private static Facade instance = new Facade(); // The instance of the Facade
+	static Business theBusiness = Business.getInstance(); // An instance of the business object
+	private static Form theForm = new Form(); // An instance of the form class
+	private static ArrayList<Business> YelpBusinesses = new ArrayList<>(); // The list of businesses from the Yelp API
+	private static ArrayList<Business> GoogleBusinesses = new ArrayList<>(); // The list of businesses from the Google Places API
+	private static ArrayList<Business> combinedBusinesses; // The list of the businesses after being combined
+	private static HashSet<Business> businesses = new HashSet<>(); 
 	private static boolean formRead = false;
 	
+	/**
+	 * Default Constructor
+	 */
 	private Facade(){
 	}
 	
@@ -61,34 +71,11 @@ public class Facade {
 	 * Combines the lists, runs the businesses through the algorithm, and prints results
 	 */
 	public ArrayList<Business> getResults(){
-		/*System.out.println("Yelp Businesses\n");
-		for(int i = 0; i < YelpBusinesses.size(); i++){
-			System.out.println(YelpBusinesses.get(i).getName() + " Price: " +
-					YelpBusinesses.get(i).getPrice() + " Rating: " +
-					YelpBusinesses.get(i).getRating());
-		}
 		
-		System.out.println("");
-		
-		System.out.println("Google Businesses\n");
-		for(int i = 0; i < GoogleBusinesses.size(); i++){
-			System.out.println(GoogleBusinesses.get(i).getName() + "\t\t Price: " +
-					GoogleBusinesses.get(i).getPrice() + "\t\t Rating: " +
-					GoogleBusinesses.get(i).getRating());
-		}
-		
-		System.out.println("\nCombined Results\n");
-		businesses.addAll(YelpBusinesses);
-		businesses.addAll(GoogleBusinesses);
-		CombinedBusinesses.addAll(businesses);
-		
-		for(int i = 0; i < businesses.size(); i++){
-			System.out.println(CombinedBusinesses.get(i).getName());
-		}*/
-		
-		
-		
+		// Creates a hash map based on the first 6 characters of the businesses street address
 		HashMap<Integer, Business> integrationMap = new HashMap<Integer, Business>();
+		
+		// Hashes the Yelp API businesses
 		for(int i = 0; i < YelpBusinesses.size(); i++){
 			
 			int hashCode = Arrays.hashCode(new Object[] {YelpBusinesses.get(i).getAddress().substring(0, 7)});
@@ -96,9 +83,12 @@ public class Facade {
 			YelpBusinesses.get(i).setAverageRating(YelpBusinesses.get(i).getYelpRating());
 		}
 		
+		// Checks to see if there is a match for each Google business
 		for(int i = 0; i < GoogleBusinesses.size(); i++){
 			int hashCode = Arrays.hashCode(new Object[] {GoogleBusinesses.get(i).getAddress().substring(0, 7)});
 			GoogleBusinesses.get(i).setAverageRating(GoogleBusinesses.get(i).getGoogleRating());
+			
+			// If there is a match, we combine the data manually
 			if(integrationMap.containsKey(hashCode)){
 				Business tempYelpBusiness = integrationMap.get(hashCode);
 				Business tempGoogleBusiness = GoogleBusinesses.get(i);
@@ -119,40 +109,37 @@ public class Facade {
 				combinedBusiness.setAverageRating((tempYelpBusiness.getAverageRating() + tempGoogleBusiness.getAverageRating()) / 2);
 				combinedBusiness.setPrice(tempGoogleBusiness.getPrice());
 				
-				
-				
 				integrationMap.remove(hashCode);
 				integrationMap.put(hashCode, combinedBusiness);
 			}
-			else{
+			
+			// If it doesn't match, we add the business to the list
+			else {
 				integrationMap.put(hashCode, GoogleBusinesses.get(i));
 			}
 		}
 		
+		// We then take the result of the hash map and make it an array list
 		combinedBusinesses = new ArrayList<Business>(integrationMap.values());
 		
 		Coordinate city = new Coordinate(theForm.getLatitude(), theForm.getLongitude());
 		
 		for(int i = 0; i < combinedBusinesses.size(); i++){
 			Coordinate business = combinedBusinesses.get(i).getCoordinates();
-			System.out.println("Business name: " + combinedBusinesses.get(i).getName());
 			combinedBusinesses.get(i).setDistance(coordinatesToMiles(city,business));
 		}
 
-		
 		callAlgorithm();
-		
-		System.out.println("\nTop 10 Sorted Vacations\n");
-		
-		for(int i = 0; i < combinedBusinesses.size() && i < 10; i++){
-			System.out.println(combinedBusinesses.get(i).getName() + "\t\t Price: "+
-					combinedBusinesses.get(i).getPrice() + "\t\t Rating: " +
-					combinedBusinesses.get(i).getAverageRating());
-		}
 		
 		return combinedBusinesses;
 	}
 	
+	/**
+	 * Converts the coordinates to the miles apart
+	 * @param from
+	 * @param to
+	 * @return
+	 */
 	public double coordinatesToMiles(Coordinate from, Coordinate to){
 		double miles = -1;
 		double fromLat = from.getLatitude() * Math.PI / 180;
@@ -167,5 +154,4 @@ public class Facade {
 		miles = 2 * 3959 * e;
 		return miles;
 	}
-	
 }
